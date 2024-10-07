@@ -1,3 +1,37 @@
+ACTIVIDAD 2: GUIA CONSULTAS SQL EN LARAVEL (QUERY BUILDER & ORM)
+Mentora: Kenia Yaneth Paiz Chacón 
+Tipo proyecto Individual FSJ22 Modalidad Virtual
+Objetivo:
+El objetivo de esta actividad es adquirir un dominio completo en el uso de Query Builder y ORM en
+Laravel para realizar consultas SQL a una base de datos.
+Indicaciones:
+1. Crea un nuevo proyecto de Laravel y configura la conexión a una base de datos.
+2. Basándote en el mini diagrama de la base de datos proporcionado, crea migraciones para
+las dos tablas correspondientes y ejecútalas.
+3. En un controlador, desarrolla métodos para cada uno de los ejercicios propuestos.
+4. Asegúrate de que cada consulta esté correctamente escrita y probada antes de continuar.
+5. No es necesario implementar vistas para esta actividad; solo se requiere la lógica de las
+consultas SQL.
+6. Añade comentarios explicativos en el código para una mejor comprensión.
+7. Deberás entregar el repositorio del proyecto en GitHub para su evaluación.
+En base a este diagrama deberás crear la base de datos y las migraciones
+tomando en cuenta el nombre y los campos de cada tabla.
+Realiza las siguientes consultas SQL en laravel:
+El objetivo de esta tarea es ejecutar una serie de consultas SQL en Laravel para
+gestionar datos relacionados con usuarios y pedidos.
+Indicaciones:
+1. Inserta al menos 5 registros en las tablas de usuarios y pedidos.
+2. Recupera todos los pedidos asociados al usuario con ID 2.
+3. Obtén la información detallada de los pedidos, incluyendo el nombre y correo
+electrónico de los usuarios.
+4. Recupera todos los pedidos cuyo total esté en el rango de $100 a $250.
+5. Encuentra todos los usuarios cuyos nombres comiencen con la letra "R".
+6. Calcula el total de registros en la tabla de pedidos para el usuario con ID 5.
+7. Recupera todos los pedidos junto con la información de los usuarios, ordenándolos
+de forma descendente según el total del pedido.
+8. Obtén la suma total del campo "total" en la tabla de pedidos.
+9. Encuentra el pedido más económico, junto con el nombre del usuario asociado.
+10. Obtén el producto, la cantidad y el total de cada pedido, agrupándolos por usuario.
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

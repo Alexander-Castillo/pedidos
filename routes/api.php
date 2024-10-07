@@ -26,6 +26,9 @@ Route::prefix('V1')->group(function () {
 
     # eliminar un usuario
     Route::delete('/delete_user/{id}', [UsersController::class, 'destroy']);
+
+    # buscar el usuario que comience con la letra: 
+    Route::get('/find_name_like/{name}', [UsersController::class,'searchByNameLike']);
     // ----------------------------------------------------------------//
     # mostrar todos los pedidos de usuarios
     Route::get('/orders',[OrdersController::class,'index']);
@@ -41,4 +44,19 @@ Route::prefix('V1')->group(function () {
 
     # eliminar un pedido
     Route::delete('/order_delete/{id}',[OrdersController::class, 'destroy']);
+
+    # mostrar pedidos que esten entre los total_amount 
+    Route::get('/orders/range_total_amount/{min}/{max}', [OrdersController::class, 'range_amount']);
+
+    # mostrar pedidos en orden descendiente en base al total_amount
+    Route::get('/orders/order_by_total_amount_DESC/', [OrdersController::class, 'order_desc_amount']);
+
+    # mostrar suma total_amount
+    Route::get('/orders/sum_total_amount/',[OrdersController::class,'total_amount']);
+
+    # mostrar cantidad de pedidos por usuarios
+    Route::get('/count_orders_by_user/',[OrdersController::class,'countOrdersByUser']);
+
+    # mostrar el monto total y la cantidad de pedidos totales con la informacion de los usuarios con sus pedidos
+    Route::get('/orders/info_orders_users/',[OrdersController::class,'groupOrdersSumary']);
 });

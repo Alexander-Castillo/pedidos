@@ -15,9 +15,10 @@ class OrdersController extends Controller
     {
         //mostrar todas las orders
         # sql query = select orders.id, orders.product, orders.quantity, orders.total_amount, users.name from orders inner join users on orders.user_id = users.id;
-        $orders = Orders::join('users', 'orders.user_id', '=', 'users.id')
-            ->select('orders.id', 'orders.product', 'orders.quantity', 'orders.total_amount', 'users.name')
-            ->get();
+        #forma modificada $orders = Orders::join('users', 'orders.user_id', '=', 'users.id')
+        #    ->select('orders.id', 'orders.product', 'orders.quantity', 'orders.total_amount', 'users.name')
+        $orders = Orders::with('user:id,name,email')
+        ->get();
         # condicionamos si hay o no datos
         if ($orders->isEmpty()) {
             return response()->json(['message' => 'No hay datos en la base de datos'], 404);
@@ -133,5 +134,81 @@ class OrdersController extends Controller
         $order->delete();
         //mensaje de exito si se logra eliminar
         return response()->json(['message' => 'Pedido eliminado correctamente'], 200);
+    }
+    /**
+     * traer entre rango de total_amount
+     */
+    public function range_amount($min, $max){
+        // mostrar los pedidos cuyo total_amount este entre $min y $max
+        $order = Orders::with(['user:id,name'])
+        ->whereBetween('total_amount', [$min, $max])
+        ->get();
+        # retornamos un mensaje si no hay rango 
+        if($order->isEmpty()){
+            return response()->json(['message' => 'No hay pedidos con un total_amount en el rango de '. $min.' a '. $max], 404);
+        }
+        // si hay rango, retornamos los pedidos
+        return response()->json($order, 200);
+    }
+    /**
+     * mostrar con orden descendiente en base al monto
+     */
+    public function order_desc_amount(){
+        // mostrar los pedidos ordenadas por el total amount en orden descendente
+        $order = Orders::with('user:id,name')
+        ->orderBy('total_amount','DESC')
+        ->get();
+        # retornamos un mensaje si no hay datos
+        if($order->isEmpty()){
+            return response()->json(['message' => 'No hay pedidos en la base de datos'], 404);
+        }
+        // si hay datos, retornamos los pedidos
+        return response()->json($order, 200);
+    }
+    /**
+     * mostrar el monto total de todos los montos en pedidos
+     */
+    public function total_amount(){
+        // mostrar monto total de todos los pedidos
+        $order = Orders::selectRaw('SUM(total_amount) as monto, SUM(quantity) as producto_total')
+        ->get();
+        # retornamos un mensaje si no hay datos
+        if($order->isEmpty()){
+            return response()->json(['message' => 'No hay pedidos en la base de datos para calcular'], 404);
+        }
+        // si hay datos, retornamos los montos
+        return response()->json($order, 200);
+    }
+    /**
+     * cantidad de ordenes por usuarios
+     */
+    public function countOrdersByUser(){
+        // mostrar la cantidad de pedidos por cada usuario
+        $order = Orders::with('user:id,name')
+        ->select('user_id', Orders::raw('COUNT(*) as cantidad_pedidos'))
+        ->groupBy('user_id')
+        ->get();
+        # retornamos un mensaje si no hay datos
+        if($order->isEmpty()){
+            return response()->json(['message' => 'No hay pedidos en la base de datos'], 404);
+        }
+        // si hay datos, retornamos la cantidad de pedidos por cada usuario
+        return response()->json($order, 200);
+    }
+    /**
+     * agrupar la cantidad de pedidos por usuarios
+     */
+    public function groupOrdersSumary(){
+        // mostrar total de pedidos con su monto total con la informacion de usuario
+        $order = Orders::with('user:id,name,email')
+        ->select('user_id', 'product', Orders::raw('SUM(quantity) as cantidad'), Orders::raw('SUM(total_amount) as monto_total'))
+        ->groupBy('user_id', 'product')
+        ->get();
+        # retornamos un mensaje si no hay datos
+        if($order->isEmpty()){
+            return response()->json(['message' => 'No hay pedidos en la base de datos'], 404);
+        }
+        // si hay datos, retornamos la cantidad de pedidos por cada usuario y el monto total
+        return response()->json($order, 200);
     }
 }

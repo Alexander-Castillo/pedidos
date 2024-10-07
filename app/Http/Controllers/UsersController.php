@@ -133,4 +133,18 @@ class UsersController extends Controller
         // Responder con un mensaje de éxito y el código 200
         return response()->json(['message' => 'Successfully deleted'], 200);
     }
+    /**
+     * buscar users cuyo nombre comience con una letra dada
+     */
+    public function searchByNameLike(string $name){
+        //sql = "SELECT * FROM users WHERE name LIKE '$name%'";
+        $users = User::where('name', 'LIKE', '%'.$name.'%')->get();
+        if (count($users) > 0) {
+            # mandar todos los resultados con status 200
+            return response()->json($users, 200);
+        }
+        # si no hay users, mandar status 400 con un mensaje de error
+        return response()->json(['error' => 'No se encontraron usuarios con ese nombre'], 400);
+    }
+    
 }
