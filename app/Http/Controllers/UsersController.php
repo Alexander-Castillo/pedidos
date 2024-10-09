@@ -83,8 +83,6 @@ class UsersController extends Controller
         if(!$user){
             return response()->json(['error' => 'No se encontró un usuario con ese ID'], 400);
         }
-        
-        
         #validamos los campos
         $validator= Validator::make($request->all(),[
             'name' => 'sometimes|required|string|max:50',

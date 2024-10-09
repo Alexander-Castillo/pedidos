@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         //creacion de 10 registros falsos a la tabla user
         //User::factory(10)->create();
         //creando registros falsos para la tabla oders
-        Orders::factory(10)->create();
+        //Orders::factory(10)->create();
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
